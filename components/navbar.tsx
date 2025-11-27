@@ -1,6 +1,6 @@
 "use client"
 
-import { Globe2, Menu, Phone, Search, X, Shield, Clock, CreditCard, HelpCircle, ChevronDown, User } from 'lucide-react'
+import { Globe2, Menu, Phone, Search, X, Shield, Clock, CreditCard, HelpCircle, User } from 'lucide-react'
 import { useState } from 'react'
 import Link from 'next/link'
 
@@ -28,23 +28,23 @@ export default function Navbar() {
               <Clock className='h-3.5 w-3.5' />
               24/7
             </span>
-            <a href='tel:020000000' className='flex items-center gap-1.5 rounded-full px-3 py-1 text-text-medium transition hover:bg-white hover:text-primary'>
+            <Link href='tel:020000000' className='flex items-center gap-1.5 rounded-full px-3 py-1 text-text-medium transition hover:bg-white hover:text-primary'>
               <Phone className='h-3.5 w-3.5' />
               <span className='font-medium'>โทรฉุกเฉิน: 02-000-0000</span>
-            </a>
+            </Link>
             <span className='hidden h-2 w-1px bg-border-light sm:inline-block' aria-hidden />
             <span className='hidden rounded-full bg-white/80 px-3 py-1 text-[0.7rem] font-semibold text-text-medium shadow-sm sm:inline'>บริการ 24 ชั่วโมง</span>
           </div>
           <div className='flex items-center gap-2 rounded-full border border-border-light/70 bg-white/80 px-2 py-1 shadow-sm'>
             {quickLinks.map((item) => (
-              <a
+              <Link
                 key={item.href}
                 href={item.href}
                 className='flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[0.7rem] font-semibold text-text-dark transition hover:bg-bg-soft hover:text-primary'
               >
                 <item.icon className='h-3.5 w-3.5' />
                 <span>{item.label}</span>
-              </a>
+              </Link>
             ))}
           </div>
         </div>
@@ -57,7 +57,7 @@ export default function Navbar() {
           className='pointer-events-none absolute left-1/2 top-2 hidden h-16 w-[82%] -translate-x-1/2 rounded-full bg-linear-to-r from-primary/12 via-white to-secondary/12 blur-lg lg:block'
         />
         {/* Logo */}
-        <a href='/' className='relative z-10 flex shrink-0 items-center'>
+        <Link href='/' className='relative z-10 flex shrink-0 items-center'>
           <div className='flex items-center gap-2.5'>
             <div className='flex h-11 w-11 items-center justify-center rounded-xl bg-linear-to-br from-primary to-secondary shadow-md'>
               <Shield className='h-6 w-6 text-white' />
@@ -67,20 +67,20 @@ export default function Navbar() {
               <span className='text-[0.7rem] font-medium leading-tight text-text-medium'>ประกันรถยนต์</span>
             </div>
           </div>
-        </a>
+        </Link>
 
         {/* Desktop Navigation */}
         <nav className='relative hidden flex-1 lg:flex  '>
           <div className='flex items-center gap-1 rounded-full border border-border-light/70 bg-white/90 px-2 py-1 shadow-[0_14px_50px_rgba(0,80,160,0.08)] backdrop-blur'>
             {mainLinks.map((item) => (
-              <a
+              <Link
                 key={item.href}
                 href={item.href}
                 className='group relative flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-text-dark/85 transition-all duration-200 hover:-translate-y-0.5 hover:bg-linear-to-r hover:from-primary/5 hover:to-secondary/5 hover:text-primary after:absolute after:inset-x-4 after:-bottom-1.5 after:h-0.5 after:origin-left after:scale-x-0 after:rounded-full after:bg-linear-to-r after:from-primary after:to-secondary after:transition-transform after:duration-200 after:content-[\"\"] group-hover:after:scale-x-100'
               >
                 <item.icon className='h-4 w-4 opacity-70 transition-opacity duration-200 group-hover:opacity-100' />
                 {item.label}
-              </a>
+              </Link>
             ))}
           </div>
         </nav>
@@ -98,27 +98,27 @@ export default function Navbar() {
             </button>
             <span className='hidden h-6 w-px bg-border-light/70 lg:inline' aria-hidden />
             
-            <a
+            <Link
               href='/sign-in'
               className='rounded-full px-3 py-2 text-sm font-semibold text-secondary transition hover:bg-bg-soft hover:text-primary'
             >
               เข้าสู่ระบบ
-            </a>
+            </Link>
                   <span className='hidden h-6 w-px bg-border-light/70 lg:inline' aria-hidden />
-            <a
+            <Link
               href='/sign-up'
               className='rounded-full bg-bg-soft px-3 py-2 text-sm font-semibold text-secondary transition hover:bg-primary hover:text-white'
             >
               สมัครสมาชิก
-            </a>
+            </Link>
                   <span className='hidden h-6 w-px bg-border-light/70 lg:inline' aria-hidden />
           </div>
 
           {/* Primary CTA */}
-          <a href='#quote' className='nav-cta-primary shadow-[0_16px_45px_rgba(0,80,160,0.15)] transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_20px_60px_rgba(0,80,160,0.2)]'>
+          <Link href='#quote' className='nav-cta-primary shadow-[0_16px_45px_rgba(0,80,160,0.15)] transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_20px_60px_rgba(0,80,160,0.2)]'>
             <Shield className='h-4 w-4' />
             ติดต่อ
-          </a>
+          </Link>
         </div>
 
         {/* Tablet & Mobile Right Actions */}
@@ -186,7 +186,7 @@ export default function Navbar() {
             {/* Main Links */}
             <div className='space-y-1'>
               {mainLinks.map((item) => (
-                <a
+                <Link
                   key={item.href}
                   href={item.href}
                   className='flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold text-text-dark transition-colors hover:bg-bg-soft hover:text-primary'
@@ -194,7 +194,7 @@ export default function Navbar() {
                 >
                   <item.icon className='h-5 w-5' />
                   {item.label}
-                </a>
+                </Link>
               ))}
             </div>
 
@@ -205,7 +205,7 @@ export default function Navbar() {
               </h3>
               <div className='space-y-1'>
                 {quickLinks.map((item) => (
-                  <a
+                  <Link
                     key={item.href}
                     href={item.href}
                     className='flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-text-dark transition-colors hover:bg-white'
@@ -213,26 +213,26 @@ export default function Navbar() {
                   >
                     <item.icon className='h-4 w-4' />
                     {item.label}
-                  </a>
+                  </Link>
                 ))}
               </div>
             </div>
 
             {/* User Actions */}
             <div className='mt-4 space-y-2'>
-              <a
+              <Link
                 href='/sign-in'
                 className='flex items-center justify-center gap-2 rounded-xl border border-border-light bg-white px-4 py-3 text-sm font-semibold text-secondary transition-colors hover:border-primary hover:text-primary'
               >
                 <User className='h-4 w-4' />
                 เข้าสู่ระบบ
-              </a>
-              <a
+              </Link>
+              <Link
                 href='/sign-up'
                 className='flex items-center justify-center gap-2 rounded-xl bg-linear-to-r from-primary to-secondary px-4 py-3 text-sm font-semibold text-white shadow-md transition-all hover:shadow-lg'
               >
                 สมัครสมาชิก
-              </a>
+              </Link>
             </div>
 
             {/* Bottom Utilities */}
@@ -244,13 +244,13 @@ export default function Navbar() {
                 <Globe2 className='h-4 w-4' />
                 TH/EN
               </button>
-              <a
+              <Link
                 href='tel:020000000'
                 className='flex items-center gap-2 rounded-lg bg-accent-red px-4 py-2 text-sm font-semibold text-white shadow-md transition hover:bg-accent-red/90'
               >
                 <Phone className='h-4 w-4' />
                 โทรฉุกเฉิน
-              </a>
+              </Link>
             </div>
           </div>
         </div>
