@@ -116,3 +116,31 @@
 .nav-utility-secondary {
     @apply flex items-center gap-2 rounded-full border border-border-light/80 bg-bg-soft px-3.5 py-2 text-sm font-semibold text-text-dark transition-colors duration-150 hover:border-secondary hover:text-primary;
 }
+
+.promo-swiper {
+    --swiper-theme-color: var(--color-primary);
+}
+
+.promo-swiper .swiper-pagination-bullet {
+    background: var(--color-primary);
+    opacity: 0.25;
+}
+
+.promo-swiper .swiper-pagination-bullet-active {
+    opacity: 1;
+}
+
+.promo-swiper .swiper-button-prev,
+.promo-swiper .swiper-button-next {
+    color: var(--color-primary);
+    background: rgba(255, 255, 255, 0.92);
+    border-radius: 9999px;
+    width: 44px;
+    height: 44px;
+    box-shadow: 0 12px 30px rgba(0, 80, 160, 0.18);
+}
+
+.promo-swiper .swiper-button-prev:after,
+.promo-swiper .swiper-button-next:after {
+    font-size: 16px;
+}
