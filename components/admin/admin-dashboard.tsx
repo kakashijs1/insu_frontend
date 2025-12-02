@@ -1,4 +1,4 @@
-'use client'
+"use client"
 
 import StatCard from './stat-card'
 
