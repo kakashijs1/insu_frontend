@@ -92,26 +92,33 @@ export default function Navbar() {
               type='button'
               onClick={() => setIsSearchOpen(!isSearchOpen)}
               className='nav-icon-btn h-10 w-10'
-              aria-label='ค้นหา'
+              aria-label='?????'
             >
               <Search className='h-5 w-5' />
             </button>
             <span className='hidden h-6 w-px bg-border-light/70 lg:inline' aria-hidden />
-            
+            <Link
+              href='/profile'
+              className='flex items-center gap-1.5 rounded-full px-3 py-2 text-sm font-semibold text-text-dark transition hover:bg-bg-soft hover:text-primary'
+            >
+              <User className='h-4 w-4' />
+              Profile
+            </Link>
+            <span className='hidden h-6 w-px bg-border-light/70 lg:inline' aria-hidden />
             <Link
               href='/sign-in'
               className='rounded-full px-3 py-2 text-sm font-semibold text-secondary transition hover:bg-bg-soft hover:text-primary'
             >
               เข้าสู่ระบบ
             </Link>
-                  <span className='hidden h-6 w-px bg-border-light/70 lg:inline' aria-hidden />
+            <span className='hidden h-6 w-px bg-border-light/70 lg:inline' aria-hidden />
             <Link
               href='/sign-up'
               className='rounded-full bg-bg-soft px-3 py-2 text-sm font-semibold text-secondary transition hover:bg-primary hover:text-white'
             >
               สมัครสมาชิก
             </Link>
-                  <span className='hidden h-6 w-px bg-border-light/70 lg:inline' aria-hidden />
+            <span className='hidden h-6 w-px bg-border-light/70 lg:inline' aria-hidden />
           </div>
 
           {/* Primary CTA */}
@@ -196,6 +203,14 @@ export default function Navbar() {
                   {item.label}
                 </Link>
               ))}
+              <Link
+                href='/profile'
+                className='flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold text-text-dark transition-colors hover:bg-bg-soft hover:text-primary'
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <User className='h-5 w-5' />
+                Profile
+              </Link>
             </div>
 
             {/* Quick Links Section */}
@@ -259,3 +274,7 @@ export default function Navbar() {
   )
 }
   
+
+
+
+

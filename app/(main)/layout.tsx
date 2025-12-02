@@ -1,3 +1,4 @@
+import Footer from '@/components/footer'
 import Navbar from '@/components/navbar'
 
 interface MainLayoutProps {
@@ -9,6 +10,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
     <div className='flex flex-col min-h-screen'>
       <Navbar />
       <main className='px-4 py-6'>{children}</main>
+      <Footer />
     </div>
   )
 }
