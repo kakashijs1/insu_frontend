@@ -60,6 +60,8 @@ export default function SectionTable() {
         {logoFileName ? (
           /* กรณีมีชื่อไฟล์ใน Mapping ให้ดึงรูปจาก /logos/ */
           <Image 
+            width={48}
+            height={48}
             src={`/logos/${logoFileName}`} 
             alt={companyName}
             className="h-full w-full object-contain rounded-md"
