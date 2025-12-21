@@ -1,8 +1,8 @@
-import { Bell, Menu, Search, User } from 'lucide-react'
+import { Bell, Menu, Search, User } from "lucide-react";
 
 type AdminTopbarProps = {
-  onToggleSidebar?: () => void
-}
+  onToggleSidebar?: () => void;
+};
 
 export default function AdminTopbar({ onToggleSidebar }: AdminTopbarProps) {
   return (
@@ -10,7 +10,7 @@ export default function AdminTopbar({ onToggleSidebar }: AdminTopbarProps) {
       <div className="flex items-center gap-2">
         <button
           type="button"
-          className="flex h-10 w-10 items-center justify-center rounded-xl border border-border-light bg-bg-soft text-text-dark transition hover:border-primary hover:text-primary lg:hidden"
+          className="flex h-10 w-10 items-center justify-center rounded-xl border border-border-light bg-bg-soft text-text-dark transition hover:border-primary hover:text-primary"
           onClick={onToggleSidebar}
         >
           <Menu className="h-5 w-5" />
@@ -29,20 +29,22 @@ export default function AdminTopbar({ onToggleSidebar }: AdminTopbarProps) {
         <button
           type="button"
           className="flex h-10 w-10 items-center justify-center rounded-xl border border-border-light bg-white text-text-dark transition hover:border-primary hover:text-primary"
-          onClick={() => console.log('Notifications (stub)')}
+          onClick={() => console.log("Notifications (stub)")}
         >
           <Bell className="h-5 w-5" />
         </button>
         <button
           type="button"
           className="flex items-center gap-2 rounded-xl border border-border-light bg-white px-3 py-2 text-sm font-semibold text-text-dark transition hover:border-primary hover:text-primary"
-          onClick={() => console.log('Profile (stub)')}
+          onClick={() => console.log("Profile (stub)")}
         >
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-white">A</div>
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-white">
+            A
+          </div>
           <span className="hidden sm:inline">Admin</span>
           <User className="h-4 w-4 text-text-medium" />
         </button>
       </div>
     </header>
-  )
+  );
 }
