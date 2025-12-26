@@ -8,4 +8,14 @@ interface OTPSendResponse {
   refno: string;
 }
 
-export { OTPSend, OTPSendResponse };
+interface OTPVerify {
+  token: string;
+  pin: string;
+}
+
+interface OTPVerifyResponse {
+  status: string;
+  message: string;
+}
+
+export type { OTPSend, OTPSendResponse, OTPVerify, OTPVerifyResponse };

@@ -9,16 +9,26 @@ import {
   useRef,
   useState,
 } from "react";
+import { useRouter } from "next/navigation";
 
-import { sendOTP } from "@/services/otp";
+import { sendOTP, verifyOTP } from "@/services/otp";
+import { signup } from "@/services/customer";
 
 const OTP_LENGTH = 6;
 
 export default function SignUpForm() {
+  const router = useRouter();
+
   const [phone, setPhone] = useState("");
   const [otpDigits, setOtpDigits] = useState(
     Array<string>(OTP_LENGTH).fill("")
   );
+  const [name, setName] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
+
+  const [refno, setRefno] = useState<string | null>(null);
+
   const [otpSent, setOtpSent] = useState(false);
   const [countdown, setCountdown] = useState(0);
   const [otpExpired, setOtpExpired] = useState(false);
@@ -62,17 +72,52 @@ export default function SignUpForm() {
     };
   }, [otpSent, stopOtpCountdown]);
 
+  const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setName(e.target.value);
+  };
+
+  const handlePhone = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPhone(e.target.value);
+  };
+
+  const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+  };
+
+  const handleConfirmPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setConfirmPassword(e.target.value);
+  };
+
+  const setTokenToLocalStorage = (token: string) => {
+    localStorage.setItem("otp-token", token);
+  };
+
+  const getTokenFromLocalStorage = () => {
+    const token = localStorage.getItem("otp-token");
+
+    if (!token) {
+      setFormError("กรุณารีโหลดหน้าเว็บ");
+      return "";
+    }
+
+    return token;
+  };
+
   const handleSendOtp = useCallback(async () => {
     if (!phone.trim()) return;
 
-    const { status, token, refno } = await sendOTP({ phone });
+    const { status, token, refno: rf } = await sendOTP({ phone });
     if (status !== "success") {
       setFormError("ไม่สามารถส่งรหัส OTP ได้ กรุณาลองใหม่อีกครั้ง");
       return;
     }
+
+    setRefno(rf);
+    setTokenToLocalStorage(token);
+
     stopOtpCountdown();
     setOtpDigits(Array<string>(OTP_LENGTH).fill(""));
-    setCountdown(60);
+    setCountdown(60 * 5);
     setOtpSent(true);
     setOtpExpired(false);
     setFormError(null);
@@ -130,7 +175,7 @@ export default function SignUpForm() {
   const canSendOtp = Boolean(phone.trim()) && !otpSent;
   const isOtpComplete = otpValue.length === OTP_LENGTH;
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setFormError(null);
 
@@ -149,7 +194,31 @@ export default function SignUpForm() {
       return;
     }
 
-    setFormError("นี่เป็น mockup: สามารถต่อ API จริงได้ในขั้นตอนถัดไป");
+    try {
+      const token = getTokenFromLocalStorage();
+      const verifyOTPPayload = { token, pin: otpDigits.join("") };
+      const { status, message } = await verifyOTP(verifyOTPPayload);
+
+      if (status !== "success") {
+        setFormError(message);
+      }
+
+      const payload = {
+        name,
+        phone,
+        password,
+        confirm_password: confirmPassword,
+      };
+
+      const { name: nameOfNewUser } = await signup(payload);
+      localStorage.removeItem("otp-token");
+      alert("สร้างบัญชีสำเร็จ");
+      router.replace("/");
+    } catch (err) {
+      if (err instanceof Error) {
+        setFormError(err.message);
+      }
+    }
   };
 
   return (
@@ -166,6 +235,7 @@ export default function SignUpForm() {
               placeholder="เช่น กุลนที นิลชาติ"
               type="text"
               className="text-input"
+              onChange={handleName}
             />
           </div>
         </div>
@@ -182,7 +252,7 @@ export default function SignUpForm() {
               type="tel"
               inputMode="tel"
               value={phone}
-              onChange={(event) => setPhone(event.target.value)}
+              onChange={handlePhone}
               className="text-input pr-36"
             />
             <button
@@ -194,7 +264,7 @@ export default function SignUpForm() {
               {otpSent ? (
                 <>
                   <Clock className="h-3.5 w-3.5" />
-                  {formattedCountdown}s
+                  {formattedCountdown}
                 </>
               ) : (
                 "ส่ง OTP"
@@ -207,9 +277,14 @@ export default function SignUpForm() {
             </p>
           )}
           {otpSent && phone.trim() && (
-            <p className="text-xs text-secondary">
-              ส่งรหัส OTP ไปยังเบอร์โทรศัพท์ของคุณแล้ว
-            </p>
+            <div className="mt-1 flex flex-col gap-0.5">
+              <p className="text-xs text-secondary">
+                ส่งรหัส OTP ไปยังเบอร์โทรศัพท์ของคุณแล้ว
+              </p>
+              <span className="text-xs text-text-medium">
+                รหัสอ้างอิง: {refno}
+              </span>
+            </div>
           )}
         </div>
 
@@ -268,6 +343,7 @@ export default function SignUpForm() {
                 placeholder="อย่างน้อย 8 ตัวอักษร"
                 type="password"
                 className="text-input"
+                onChange={handlePassword}
               />
             </div>
           </div>
@@ -282,6 +358,7 @@ export default function SignUpForm() {
                 placeholder="พิมพ์รหัสผ่านอีกครั้ง"
                 type="password"
                 className="text-input"
+                onChange={handleConfirmPassword}
               />
             </div>
           </div>
@@ -290,7 +367,7 @@ export default function SignUpForm() {
 
       <div className="rounded-2xl bg-bg-soft px-4 py-3 text-sm text-text-medium">
         เราจะส่ง OTP
-        เพื่อยืนยันการสมัครและแจ้งเตือนการอัปเดตกรมธรรม์ผ่านอีเมลของคุณเสมอ
+        เพื่อยืนยันการสมัครและแจ้งเตือนการอัปเดตกรมธรรม์ผ่านเบอร์โทรศัพท์ของคุณเสมอ
       </div>
 
       {formError && <div className="alert-error">{formError}</div>}

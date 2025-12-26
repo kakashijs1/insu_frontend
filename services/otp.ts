@@ -1,9 +1,12 @@
-'use server'
-
-import { OTPSend, OTPSendResponse } from "@/interfaces/otp";
+import {
+  OTPSend,
+  OTPSendResponse,
+  OTPVerify,
+  OTPVerifyResponse,
+} from "@/interfaces/otp";
 
 const sendOTP = async (payload: OTPSend): Promise<OTPSendResponse> => {
-  const response = await fetch(`${process.env.BACKEND_ENDPOINT_URL}/otp/send`, {
+  const res = await fetch("/api/otp/send", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -11,15 +14,21 @@ const sendOTP = async (payload: OTPSend): Promise<OTPSendResponse> => {
     body: JSON.stringify(payload),
   });
 
-  console.log('Response', response)
-
-  if (!response.ok) {
-    throw new Error("Failed to send a OTP");
-  }
-
-  const data = await response.json();
-  console.log('Data', data)
+  const data = await res.json();
   return data;
 };
 
-export { sendOTP };
+const verifyOTP = async (payload: OTPVerify): Promise<OTPVerifyResponse> => {
+  const response = await fetch("/api/otp/verify", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+
+  const data = await response.json();
+  return data;
+};
+
+export { sendOTP, verifyOTP };
